@@ -21,7 +21,9 @@ class MainActivity : AppCompatActivity() {
 
     private val autoScrollDisposable = CompositeDisposable()
 
-    var events : List<Event> = listOf(Event(0, R.drawable.sample_1),Event(1,R.drawable.sample_2), Event(2, R.drawable.sample_3))
+    var events : List<Event> = listOf(Event(0, R.drawable.sample_1),Event(1,R.drawable.sample_2), Event(2, R.drawable.sample_3),
+        Event(3, R.drawable.sample_4),Event(4,R.drawable.sample_5), Event(5, R.drawable.sample_6),Event(6,R.drawable.sample_7)
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,7 +53,8 @@ class MainActivity : AppCompatActivity() {
 
                  Log.d(TAG, "VIEWPAGER" + mBinding.mViewPager2.currentItem )
 
-                    mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 800)
+                    mBinding.pageIndicator.refresh(position)
+                    mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 400)
                 }
 
             })
@@ -135,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "rxRepestTImeer " + position.toString())
 
             mBinding.mViewPagerBlurred.setCurrentItem(
-                mBinding.mViewPager2.currentItem % (events.size) + 1, false
+                (mBinding.mViewPager2.currentItem  + 1 ) % (events.size) , false
             )
 
 

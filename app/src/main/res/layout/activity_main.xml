@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:descendantFocusability="blocksDescendants"
         tools:context=".udc.UdcActivity">
@@ -52,6 +52,17 @@
             app:layout_constraintBottom_toBottomOf="@id/mViewPager_blurred"
             app:layout_constraintTop_toTopOf="parent"
             app:recyclerview_main_images="@{activity.events}" />
+
+        <com.example.autoviewpager.component.PageIndicator
+            android:id="@+id/page_indicator"
+            android:layout_width="150dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/semiTransparent"
+            app:layout_constraintEnd_toEndOf="@+id/mViewPager2"
+            app:layout_constraintStart_toStartOf="@+id/mViewPager2"
+            app:layout_constraintBottom_toBottomOf="@+id/mViewPager2"
+            app:page_count="@{activity.events.size()}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

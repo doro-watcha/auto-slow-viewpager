@@ -9,5 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="naverGreen">#2DB400</color>
+    <color name="melonGreen">#75ee49</color>
+    <color name="gray">#f9f9f9</color>
 
+    <color name="semiTransparent">#6ef9f9f9</color>
 </resources>

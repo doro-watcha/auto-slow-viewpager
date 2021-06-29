@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     private val autoScrollDisposable = CompositeDisposable()
 
-    var events : List<Event> = listOf(Event(0, R.drawable.sample_1),Event(1,R.drawable.sample_2), Event(2, R.drawable.sample_3),
-        Event(3, R.drawable.sample_4),Event(4,R.drawable.sample_5), Event(5, R.drawable.sample_6),Event(6,R.drawable.sample_7)
+    var events : List<Event> = listOf(Event(0, R.drawable.sample1),Event(1,R.drawable.sample2), Event(2, R.drawable.sample3),
+        Event(3, R.drawable.sample4),Event(4,R.drawable.sample5), Event(5, R.drawable.sample6),Event(6,R.drawable.sample7)
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,8 +121,9 @@ class MainActivity : AppCompatActivity() {
                                     position % events.size,
                                     false
                                 )
+                                mBinding.pageIndicator.refresh(position % events.size)
                             }
-                            mBinding.pageIndicator.refresh(position % events.size)
+
 
                         }
                         ViewPager2.SCROLL_STATE_DRAGGING -> {
@@ -147,20 +148,26 @@ class MainActivity : AppCompatActivity() {
         autoScrollDisposable.clear()
         rxSingleTimer(2000) {
 
-            mBinding.mViewPagerBlurred.setCurrentItem((mBinding.mViewPager2.currentItem + 1) % events.size, false)
-            mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 600)
+            val position = mBinding.mViewPager2.currentItem + 1
+
+            mBinding.pageIndicator.refresh( position % events.size )
+            mBinding.mViewPagerBlurred.setCurrentItem(position % events.size, false)
+            mBinding.mViewPager2.setCurrentItem(position, 600)
 
         }.disposedBy(autoScrollDisposable)
 
 
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+
+        Log.d(TAG, "onResume")
 
         scrollToNext()
 
     }
+
 
     override fun onPause() {
         super.onPause()

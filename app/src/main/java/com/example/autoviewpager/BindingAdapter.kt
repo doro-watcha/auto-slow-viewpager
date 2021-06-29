@@ -19,7 +19,7 @@ fun ImageView.setBlurImage(src : String?) {
 fun ImageView.setBlurImage(@DrawableRes image : Int) {
 
     Glide.with(this).load(image)
-        .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 10)))
+        .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))
         .into(this)
 }
 

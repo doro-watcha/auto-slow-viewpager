@@ -45,20 +45,6 @@ class MainActivity : AppCompatActivity() {
             adapter = BlurredAdapter()
             isUserInputEnabled = false
             offscreenPageLimit = 10
-
-            this.registerOnPageChangeCallback( object : ViewPager2.OnPageChangeCallback() {
-
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-
-                 Log.d(TAG, "VIEWPAGER" + mBinding.mViewPager2.currentItem )
-
-                    mBinding.pageIndicator.refresh(position)
-                    mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 800)
-                }
-
-            })
-
         }
     }
 
@@ -112,13 +98,40 @@ class MainActivity : AppCompatActivity() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
+                    Log.d(TAG, "position " + (position % events.size).toString())
+                    Log.d(TAG, "blur = " + mBinding.mViewPagerBlurred.currentItem.toString())
+
+
+
 
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {
                     super.onPageScrollStateChanged(state)
+
+                    when ( state ) {
+                        ViewPager2.SCROLL_STATE_IDLE -> {
+
+                            scrollToNext()
+
+                            val position = mBinding.mViewPager2.currentItem
+                            if (position % events.size != (mBinding.mViewPagerBlurred.currentItem ) ) {
+
+                                mBinding.mViewPagerBlurred.setCurrentItem(
+                                    position % events.size,
+                                    false
+                                )
+                            }
+                            mBinding.pageIndicator.refresh(position % events.size)
+
+                        }
+                        ViewPager2.SCROLL_STATE_DRAGGING -> {
+                            autoScrollDisposable.clear()
+                        }
+                    }
                 }
             })
+
 
             offscreenPageLimit = 10
         }
@@ -126,38 +139,27 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun startAutoScroll () {
+    private fun scrollToNext () {
+
+        Log.d(TAG, "Scroll To next")
 
 
         autoScrollDisposable.clear()
-        rxRepeatTimer(2000, {
+        rxSingleTimer(2000) {
 
-            //sleep(5000)
+            mBinding.mViewPagerBlurred.setCurrentItem((mBinding.mViewPager2.currentItem + 1) % events.size, false)
+            mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 500)
 
-            val position = mBinding.mViewPager2.currentItem % events.size
-
-            Log.d(TAG, "rxRepestTImeer " + position.toString())
-
-            mBinding.mViewPagerBlurred.setCurrentItem(
-                (mBinding.mViewPager2.currentItem  + 1 ) % (events.size) , false
-            )
-
-
-
-
-        }, 2000).disposedBy(autoScrollDisposable)
+        }.disposedBy(autoScrollDisposable)
 
 
     }
 
+    override fun onStart() {
+        super.onStart()
 
+        scrollToNext()
 
-
-
-    override fun onResume() {
-        super.onResume()
-
-        startAutoScroll()
     }
 
     override fun onPause() {

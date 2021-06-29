@@ -1,6 +1,8 @@
 package com.example.autoviewpager.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.databinding.library.baseAdapters.BR
 import android.widget.ImageView
@@ -23,6 +25,10 @@ class MainImageAdapter:
 
     private val onClick: PublishSubject<Pair<Event, ImageView>> = PublishSubject.create()
     val clickEvent: Observable<Pair<Event, ImageView>> = onClick
+
+    private val onTouch : PublishSubject<Boolean> = PublishSubject.create()
+    val touchEvent : Observable<Boolean> = onTouch
+
 
     private val diff = object : DiffUtil.ItemCallback<Event>() {
         override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {

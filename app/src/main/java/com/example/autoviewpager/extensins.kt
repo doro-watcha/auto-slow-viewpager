@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.viewpager2.widget.ViewPager2
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -29,6 +30,17 @@ fun <T> Observable<T>.addSchedulers(): Observable<T> {
 
 fun Disposable.disposedBy(compositeDisposable: CompositeDisposable) {
     compositeDisposable.add(this)
+}
+
+
+fun <T> Single<T>.addSchedulers(): Single<T> =
+    subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+
+
+fun rxSingleTimer(milliseconds: Long, completion: (t: Long) -> Unit): Disposable {
+    return Single.timer(milliseconds, TimeUnit.MILLISECONDS)
+        .addSchedulers()
+        .subscribe(completion)
 }
 
 

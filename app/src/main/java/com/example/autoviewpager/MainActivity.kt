@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                  Log.d(TAG, "VIEWPAGER" + mBinding.mViewPager2.currentItem )
 
                     mBinding.pageIndicator.refresh(position)
-                    mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 400)
+                    mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 800)
                 }
 
             })
@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             this.setPageTransformer { page, position ->
                 val viewPager = page.parent.parent as ViewPager2
                 val offset = position * -(2 * offsetPx + pageMarginPx)
+
                 if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
                     if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
                         page.translationX = -offset

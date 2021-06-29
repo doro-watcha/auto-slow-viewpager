@@ -45,7 +45,6 @@ fun ViewPager2.setCurrentItem(
         pagePxHeight * (item - currentItem)
     }
 
-
     val animator = ValueAnimator.ofInt(0, pxToDrag)
     var previousValue = 0
     animator.addUpdateListener { valueAnimator ->

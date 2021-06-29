@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="요즘 관객들은 이렇게 관람함!"
-            android:textColor="@color/naverGreen"
+            android:textSize="12dp"
+            android:textColor="@color/melonGreen"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,15 +61,25 @@
             android:id="@+id/txt_sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="모네에서 세잔까지"
-            android:text="가즈아"
+            android:text="모네에서 세잔까지"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:textSize="24dp"
+            android:layout_marginTop="5dp"
+            android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="@id/txt_title"
             app:layout_constraintStart_toStartOf="@id/txt_title"
             app:layout_constraintTop_toBottomOf="@+id/txt_title" />
+
+        <TextView
+            android:id="@+id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/txt_sub_title"
+            app:layout_constraintEnd_toEndOf="@+id/txt_sub_title"
+            app:layout_constraintTop_toBottomOf="@+id/txt_sub_title"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:text="2021.05.01 - 2021.08.22"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

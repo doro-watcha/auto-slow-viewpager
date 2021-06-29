@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                     page.translationY = offset
                 }
             }
-            this.setPadding(0, offsetPx, 0, offsetPx)
+            this.setPadding(0, offsetPx, 0, 0)
 
 
             this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         rxSingleTimer(2000) {
 
             mBinding.mViewPagerBlurred.setCurrentItem((mBinding.mViewPager2.currentItem + 1) % events.size, false)
-            mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 500)
+            mBinding.mViewPager2.setCurrentItem(mBinding.mViewPager2.currentItem + 1, 600)
 
         }.disposedBy(autoScrollDisposable)
 
@@ -170,6 +170,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        autoScrollDisposable.dispose()
 
     }
 

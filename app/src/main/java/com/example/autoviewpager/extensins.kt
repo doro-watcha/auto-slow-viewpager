@@ -47,15 +47,9 @@ fun rxSingleTimer(milliseconds: Long, completion: (t: Long) -> Unit): Disposable
 fun ViewPager2.setCurrentItem(
     item: Int,
     duration: Long,
-    interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
-    pagePxWidth: Int = width, // Default value taken from getWidth() from ViewPager2 view
-    pagePxHeight: Int = height
+    interpolator: TimeInterpolator = AccelerateDecelerateInterpolator()
 ) {
-    val pxToDrag: Int = if (orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
-        pagePxWidth * (item - currentItem)
-    } else {
-        pagePxHeight * (item - currentItem)
-    }
+    val pxToDrag: Int = width * (item - currentItem)
 
     val animator = ValueAnimator.ofInt(0, pxToDrag)
     var previousValue = 0

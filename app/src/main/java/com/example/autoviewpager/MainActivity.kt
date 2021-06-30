@@ -17,11 +17,15 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = MainActivity::class.java.simpleName
 
+
     private lateinit var mBinding : ActivityMainBinding
 
     private val autoScrollDisposable = CompositeDisposable()
 
-    var events : List<Event> = listOf(Event(0, R.drawable.sample1),Event(1,R.drawable.sample2), Event(2, R.drawable.sample3),
+//    val events : List<Event> = listOf(Event(0, R.drawable.sample_1),Event(1,R.drawable.sample_2), Event(2, R.drawable.sample_3),
+//        Event(3, R.drawable.sample_4),Event(4,R.drawable.sample_5), Event(5, R.drawable.sample_6),Event(6,R.drawable.sample_7)
+//    )
+    val events : List<Event> = listOf(Event(0, R.drawable.sample1),Event(1,R.drawable.sample2), Event(2, R.drawable.sample3),
         Event(3, R.drawable.sample4),Event(4,R.drawable.sample5), Event(5, R.drawable.sample6),Event(6,R.drawable.sample7)
     )
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         mBinding.mViewPagerBlurred.apply {
 
             adapter = BlurredAdapter()
+
             isUserInputEnabled = false
             offscreenPageLimit = 10
         }
@@ -53,20 +58,19 @@ class MainActivity : AppCompatActivity() {
         mBinding.mViewPager2.apply {
 
 
-            adapter = MainImageAdapter().apply {
+            adapter = MainImageAdapter()
 
-
-            }
-
+            /**
+             * 초기 아이템 위치 셋팅
+             */
             var centerValue =  Integer.MAX_VALUE / 2
-
             val findFirstPosition = centerValue % ( events.size)
-
             centerValue -= findFirstPosition
-
-
             setCurrentItem( centerValue , false )
 
+            /**
+             * Side Item Visibility 및 Animation
+             */
             val pageMarginPx = resources.getDimensionPixelOffset(R.dimen.pageMargin)
             val offsetPx = resources.getDimensionPixelOffset(R.dimen.offset)
             this.setPageTransformer { page, position ->
@@ -83,27 +87,21 @@ class MainActivity : AppCompatActivity() {
                     page.translationY = offset
                 }
             }
-            this.setPadding(0, offsetPx, 0, 0)
 
 
             this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                    super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                }
 
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
-                    Log.d(TAG, "position " + (position % events.size).toString())
-                    Log.d(TAG, "blur = " + mBinding.mViewPagerBlurred.currentItem.toString())
+                    if (position % events.size != (mBinding.mViewPagerBlurred.currentItem ) ) {
 
-
-
-
+                        mBinding.mViewPagerBlurred.setCurrentItem(
+                            position % events.size,
+                            false
+                        )
+                        mBinding.pageIndicator.refresh(position % events.size)
+                    }
                 }
 
                 override fun onPageScrollStateChanged(state: Int) {
@@ -111,19 +109,7 @@ class MainActivity : AppCompatActivity() {
 
                     when ( state ) {
                         ViewPager2.SCROLL_STATE_IDLE -> {
-
                             scrollToNext()
-
-                            val position = mBinding.mViewPager2.currentItem
-                            if (position % events.size != (mBinding.mViewPagerBlurred.currentItem ) ) {
-
-                                mBinding.mViewPagerBlurred.setCurrentItem(
-                                    position % events.size,
-                                    false
-                                )
-                                mBinding.pageIndicator.refresh(position % events.size)
-                            }
-
 
                         }
                         ViewPager2.SCROLL_STATE_DRAGGING -> {
@@ -142,9 +128,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun scrollToNext () {
 
-        Log.d(TAG, "Scroll To next")
-
-
         autoScrollDisposable.clear()
         rxSingleTimer(2000) {
 
@@ -161,8 +144,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        Log.d(TAG, "onResume")
 
         scrollToNext()
 

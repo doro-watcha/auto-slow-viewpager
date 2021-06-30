@@ -41,6 +41,16 @@
                 android:src="@{item.imageSource}"
                 tools:src="@drawable/sample_1" />
 
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textStyle="bold"-->
+<!--                tools:text="1"-->
+<!--                android:gravity="center"-->
+<!--                android:textSize="100dp"-->
+<!--                android:text="@{Integer.valueOf(item.id+1).toString()}"/>-->
+
 
         </androidx.cardview.widget.CardView>
 
